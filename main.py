@@ -2,7 +2,7 @@ from src.handle_data.csv_reader import convert_csv, calculate_pocket_money
 from src.cli.get_cli_data import get_cli_data
 
 
-def main():
+def main() -> None:
     file_path, key, multiplier = get_cli_data()
 
     data = convert_csv(str(file_path))

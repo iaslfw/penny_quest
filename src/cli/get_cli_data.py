@@ -1,7 +1,7 @@
 import argparse
 
 
-def get_cli_data():
+def get_cli_data() -> tuple[str, str, float]:
     parser = argparse.ArgumentParser(
         prog="Penny Quest",
         description="Calculate pocket money based on CSV data",
@@ -47,8 +47,8 @@ def get_cli_data():
 
     args = parser.parse_args()
 
-    inFile = args.file
-    key = args.key
-    multiplier = args.multiplier
+    inFile = str(args.file)
+    key = str(args.key)
+    multiplier = float(args.multiplier)
 
     return inFile, key, multiplier

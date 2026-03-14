@@ -10,6 +10,20 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "mypy>=1.19.1",
+    "pandas-stubs>=3.0.0.260204",
     "pytest>=9.0.2",
     "ruff>=0.15.6",
 ]
+
+[tool.mypy]
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+warn_return_any = true
+warn_no_return = true
+
+warn_unreachable = true
+warn_redundant_casts = true
+
+exclude = "tests/*"

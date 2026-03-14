@@ -1,4 +1,4 @@
-name: Run checks with ruff
+name: Run checks and types with ruff and mypy
 
 on: [push, pull_request]
 
@@ -18,3 +18,6 @@ jobs:
 
       - name: Ruff format check
         run: uv run ruff format . --check --diff
+
+      - name: MyPy type check
+        run: uv run mypy .
