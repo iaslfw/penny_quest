@@ -1,10 +1,13 @@
-name: Run Tests
+name: Run PyTests
 
-on: [push, pull_request]
+on: 
+  workflow_run:
+    workflows: ["Run checks with ruff"]
+    types: [completed]
 
 jobs:
   build:
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,4 +20,3 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Test with python ${{ matrix.python-version }}
         run: uv run -m pytest
-
