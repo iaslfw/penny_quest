@@ -1,14 +1,11 @@
-from src.handle_csv.csv_reader import convert_csv, calculate_pocket_money
+from src.handle_data.csv_reader import convert_csv, calculate_pocket_money
+from src.cli.get_cli_data import get_cli_data
 
 
 def main():
-    key = str(input("Enter the column name containing the transaction amounts: "))
-    multiplier_input = float(
-        input("Enter the multiplier for the pocket money calculation (default is 2): ")
-    )
-    multiplier = multiplier_input if multiplier_input else 2
+    file_path, key, multiplier = get_cli_data()
 
-    data = convert_csv("src/handle_csv/sheets/umsaetze_example.csv")
+    data = convert_csv(str(file_path))
 
     base_pocket_money = calculate_pocket_money(data, key, 1.0)
     multiplied_pocket_money = round(base_pocket_money * multiplier, 2)

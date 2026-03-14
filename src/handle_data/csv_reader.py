@@ -15,7 +15,7 @@ def convert_csv(file_path: str) -> pd.DataFrame:
     df: pd.DataFrame = pd.read_csv(
         file_path,
         sep=";",
-        encoding="utf-8-sig",
+        encoding="latin-1",
         dtype=str,
     )
 
@@ -28,7 +28,7 @@ def convert_csv(file_path: str) -> pd.DataFrame:
     return df
 
 
-def calculate_pocket_money(df: pd.DataFrame, key: str, multiplier: float) -> float:
+def calculate_pocket_money(df: pd.DataFrame, key: str, multiplier: float = 2) -> float:
     """Calculates the pocket money for the month
 
     Args:
