@@ -1,54 +1,56 @@
 import argparse
+from typing import Optional, Tuple
 
 
-def get_cli_data() -> tuple[str, str, float]:
+def get_cli_data() -> Tuple[str, str, Optional[str], Optional[float]]:
     parser = argparse.ArgumentParser(
         prog="Penny Quest",
         description="Calculate pocket money based on CSV data",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        add_help=False,
     )
 
-    required = parser.add_argument_group("required arguments")
-    optional = parser.add_argument_group("optional arguments")
-
-    optional.add_argument(
-        "-h",
-        "--help",
-        action="help",
-        default=argparse.SUPPRESS,
-        help="show this help message and exit",
+    subparsers = parser.add_subparsers(
+        dest="command", required=True, help="Sub-commands"
     )
 
-    required.add_argument(
-        "-f",
-        "--file",
-        type=str,
-        metavar="",
-        required=True,
-        help="Input CSV file",
+    # Command: calculate
+    calculate_parser = subparsers.add_parser("calculate", help="Calculate pocket money")
+    calculate_parser.add_argument(
+        "--file_path", "-f", type=str, required=True, help="Input CSV file path"
     )
-    required.add_argument(
+    calculate_parser.add_argument(
+        "--banking-key",
         "-k",
-        "--key",
         type=str,
-        metavar="",
         required=True,
-        help="Column name containing transaction amounts",
+        help="Banking key to identify CSV-template",
     )
-    optional.add_argument(
-        "-m",
+    calculate_parser.add_argument(
         "--multiplier",
+        "-m",
         type=float,
-        metavar="",
         default=2.0,
         help="Multiplier for pocket money calculation",
     )
 
+    # Command: inspect
+    inspect_parser = subparsers.add_parser("inspect", help="Inspect file data")
+    inspect_parser.add_argument(
+        "--file_path", "-f", type=str, required=True, help="Input CSV file path"
+    )
+    inspect_parser.add_argument(
+        "--banking-key",
+        "-k",
+        type=str,
+        required=True,
+        help="Banking key to identify CSV-template",
+    )
+
     args = parser.parse_args()
 
-    inFile = str(args.file)
-    key = str(args.key)
-    multiplier = float(args.multiplier)
-
-    return inFile, key, multiplier
+    return (
+        args.command,
+        args.file_path,
+        getattr(args, "banking_key", None),
+        getattr(args, "multiplier", None),
+    )
